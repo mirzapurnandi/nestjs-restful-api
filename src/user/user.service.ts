@@ -1,9 +1,9 @@
+import { PrismaService } from '../common/prisma.service';
 import { Logger } from 'winston';
 import { HttpException, Inject, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/common/prisma.service';
-import { ValidationService } from 'src/common/validation.service';
+import { ValidationService } from '../common/validation.service';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { RegisterUserRequest, UserResponse } from 'src/model/user.model';
+import { RegisterUserRequest, UserResponse } from '../model/user.model';
 import { UserValidation } from './user.validation';
 import * as bcrypt from "bcrypt";
 
