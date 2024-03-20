@@ -16,15 +16,16 @@ export class ErrorFilter implements ExceptionFilter {
         errors: exception.getResponse(),
       })
     } else if(exception instanceof ZodError) {
-      let errorMessage = [];
-      for (const key in exception.errors) {
-        let keys = exception.errors[key].path[0];
-          errorMessage[keys] = exception.errors[key].message;
-      };
+      const errorMessages = exception.errors.map(item => {
+        return {
+          message: item.message,
+          path: item.path.join('.')
+        }
+      });
       
       response.status(400).json({
-        errors: "Validation Error"
-        // errors: errorMessage
+        errors: "Validation Error",
+        data: errorMessages
       })
     } else {
       response.status(500).json({
