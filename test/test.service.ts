@@ -15,6 +15,14 @@ export class TestService {
     });
   }
 
+  async deleteContact() {
+    await this.prismaService.contact.deleteMany({
+      where: {
+        username: 'test',
+      },
+    });
+  }
+
   async getUser(): Promise<User> {
     return this.prismaService.user.findUnique({
       where: {
@@ -23,7 +31,7 @@ export class TestService {
     });
   }
 
-  async createuser() {
+  async createUser() {
     await this.prismaService.user.create({
       data: {
         username: 'test',
