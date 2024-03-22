@@ -24,39 +24,30 @@ describe('UserController', () => {
     testService = app.get(TestService);
   });
 
-  describe('[POST] /api/contacts', () => {
+  describe('[POST] /api/contacts/:contactId', () => {
     beforeEach(async () => {
       await testService.deleteContact();
       await testService.deleteUser();
-      await testService.createUser();
-    });
-    it('should be rejected if request is invalid', async () => {
-      const response = await request(app.getHttpServer())
-        .post('/api/contacts')
-        .set('Authorization', 'test')
-        .send({
-          first_name: '',
-          last_name: '',
-          email: 'salah',
-          phone: '',
-        });
 
+      await testService.createUser();
+      await testService.createContact();
+    });
+    it('should be rejected if contact is invalid', async () => {
+      const contact = await testService.getContact();
+      const response = await request(app.getHttpServer())
+        .get(`/api/contacts/${contact.id + 1}`)
+        .set('Authorization', 'test');
       logger.info(response.body);
 
-      expect(response.status).toBe(400);
+      expect(response.status).toBe(404);
       expect(response.body.errors).toBeDefined();
     });
 
-    it('should be able to create contact', async () => {
+    it('should be able to get contact', async () => {
+      const contact = await testService.getContact();
       const response = await request(app.getHttpServer())
-        .post('/api/contacts')
-        .set('Authorization', 'test')
-        .send({
-          first_name: 'test',
-          last_name: 'test',
-          email: 'test@example.com',
-          phone: '9999',
-        });
+        .get(`/api/contacts/${contact.id}`)
+        .set('Authorization', 'test');
 
       logger.info(response.body);
 
