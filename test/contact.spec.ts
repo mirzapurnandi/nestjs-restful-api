@@ -7,7 +7,7 @@ import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 
-describe('UserController', () => {
+describe('ContractController', () => {
   let app: INestApplication;
   let logger: Logger;
   let testService: TestService;

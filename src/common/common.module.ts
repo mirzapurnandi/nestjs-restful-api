@@ -12,6 +12,7 @@ import { ErrorFilter } from './error.filter';
 @Module({
   imports: [
     WinstonModule.forRoot({
+      //level: 'debug',
       format: winston.format.json(),
       transports: [new winston.transports.Console()],
     }),
