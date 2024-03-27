@@ -4,6 +4,7 @@ import {
   AddressResponse,
   CreateAddressRequest,
   GetAddressRequest,
+  RemoveAddressRequest,
   UpdateAddressRequest,
 } from './../model/address.model';
 import { GlobalResponse } from './../model/global.model';
@@ -11,6 +12,7 @@ import { AddressService } from './address.service';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   Param,
@@ -67,6 +69,24 @@ export class AddressController {
     const result = await this.addressService.update(user, request);
     return {
       data: result,
+    };
+  }
+
+  @Delete('/:addressId')
+  @HttpCode(200)
+  async remove(
+    @Auth() user: User,
+    @Param('contactId', ParseIntPipe) contactId: number,
+    @Param('addressId', ParseIntPipe) addressId: number,
+  ): Promise<GlobalResponse<boolean>> {
+    const request: RemoveAddressRequest = {
+      address_id: addressId,
+      contact_id: contactId,
+    };
+
+    await this.addressService.remove(user, request);
+    return {
+      data: true,
     };
   }
 }
